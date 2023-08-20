@@ -1,0 +1,45 @@
+Sub FormatareCondi()
+'
+' FormatareCondi Macro
+'
+
+'
+
+
+    Application.CutCopyMode = Fals
+    i = 1
+    While i < 16
+    
+        Worksheets(i).Select
+        Range("B2").Select
+        
+        While ActiveCell.Value <> ""
+            Dim Unica As String
+            Unica = ActiveCell.Value
+            Dim Culoarea As Variant
+            
+            Culoarea = ActiveCell.Offset(0, 1).Interior.Color
+            
+            Worksheets(i + 1).Select
+            
+            Range("D:D").Select
+            Application.CutCopyMode = False
+    
+            
+            Selection.FormatConditions.Add Type:=xlCellValue, Operator:=xlEqual, _
+            Formula1:=Unica
+            Selection.FormatConditions(Selection.FormatConditions.Count).SetFirstPriority
+            With Selection.FormatConditions(1).Interior
+                .Color = Culoarea
+                .TintAndShade = 0
+            End With
+                
+            Worksheets(i).Select
+            ActiveCell.Offset(1, 0).Select
+        Wend
+        i = i + 2
+    Wend
+    
+End Sub
+
+
